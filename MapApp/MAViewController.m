@@ -19,6 +19,10 @@
 
 @property (strong, nonatomic) NSMutableArray *locationArray;
 
+@property (weak, nonatomic) IBOutlet UITextField *searchBoxText;
+
+@property (nonatomic) CLLocationCoordinate2D coordinates;
+
 @end
 
 @implementation MAViewController
@@ -47,9 +51,34 @@
     }
 }
 
-- (IBAction)refreshMap:(id)sender {
+- (IBAction)refreshMap:(id)sender
+{
     [locationManager startUpdatingLocation];
-    
+}
+
+- (IBAction)searchForLocation:(id)sender
+{
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder geocodeAddressString:self.searchBoxText.text completionHandler:^(NSArray *placemarks, NSError *error) {
+        //Error checking
+        
+        CLPlacemark *placemark = [placemarks objectAtIndex:0];
+        CLLocation *currLocation = [CLLocation new];
+        currLocation = placemark.location;
+        self.coordinates = currLocation.coordinate;
+        
+        CLLocation *destinationLocation = [CLLocation new];
+        destinationLocation = placemark.location;
+        
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.coordinates, 3 * METERS_PER_MILE, 3 * METERS_PER_MILE);
+        [self.myMapView setRegion:viewRegion animated:YES];
+        
+        for (MKAnnotationView *view in self.myMapView.annotations) {
+            [self.myMapView removeAnnotation:view];
+        }
+        
+        [self.myMapView addAnnotation:destinationLocation];
+    }];
 }
 
 -(void)CurrentLocationIdentifier
@@ -73,9 +102,9 @@
              CLPlacemark *placemark = [placemarks objectAtIndex:0];
              CLLocation *currLocation = [CLLocation new];
              currLocation = placemark.location;
-             CLLocationCoordinate2D coordinates = currLocation.coordinate;
+             self.coordinates = currLocation.coordinate;
              
-             MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(coordinates, 3 * METERS_PER_MILE, 3 * METERS_PER_MILE);
+             MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(self.coordinates, 3 * METERS_PER_MILE, 3 * METERS_PER_MILE);
              
             [self.myMapView setRegion:viewRegion animated:YES];
 

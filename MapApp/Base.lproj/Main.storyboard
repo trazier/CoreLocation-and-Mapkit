@@ -18,12 +18,27 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="jq8-gF-K3f">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="qdd-ue-aQh">
                             <connections>
                                 <action selector="refreshMap:" destination="vXZ-lx-hvc" id="sNY-Jf-Anc"/>
                             </connections>
                         </barButtonItem>
+                        <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Search for location" borderStyle="roundedRect" minimumFontSize="17" id="5aV-9Y-D3b">
+                            <rect key="frame" x="60" y="7" width="201" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="hTr-dP-fAw">
+                            <connections>
+                                <action selector="searchForLocation:" destination="vXZ-lx-hvc" id="Usx-pr-7um"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchBoxText" destination="5aV-9Y-D3b" id="rxX-Xz-jjd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
